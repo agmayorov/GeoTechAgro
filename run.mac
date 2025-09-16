@@ -1,0 +1,9 @@
+/control/verbose 0
+/run/verbose 0
+
+/run/initialize
+
+/vis/viewer/set/upVector 0 0 1
+
+/run/printProgress 1000
+/run/beamOn 10000
