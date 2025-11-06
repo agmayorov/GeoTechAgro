@@ -12,24 +12,27 @@
 #include "G4EventManager.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SDManager.hh"
-#include "StepAct.hh"
-#include "unordered_map"
 
-#include "SDHit.hh"
+#include <algorithm>
 
 class SensitiveDetector : public G4VSensitiveDetector {
 public:
-    SensitiveDetector(const G4String&);
+    SensitiveDetector(const G4String&, G4String);
     ~SensitiveDetector();
 
 private:
-    SDHitCollection *fHitsCollection = nullptr;
-    G4int fHCID = -1;
-    std::unordered_map<G4int, G4int> fIndexByRoot;
+    G4String detectorType;
 
-    void Initialize(G4HCofThisEvent *) override;
-    void EndOfEvent(G4HCofThisEvent *) override;
-    G4bool ProcessHits(G4Step *, G4TouchableHistory *) override;
+    G4double fTotalEnergyDepositedGamma;
+
+    std::vector<G4double> fTotalEnergyDeposited;
+    G4int parentID;
+    std::vector<G4int> registeredID;
+
+    virtual void Initialize(G4HCofThisEvent *) override;
+    virtual void EndOfEvent(G4HCofThisEvent *) override;
+
+    virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
 };
 
 

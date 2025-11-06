@@ -17,7 +17,4 @@ void Action::Build() const {
 
 //    EventAct* event = new EventAct();
 //    SetUserAction(event);
-
-    StepAct* stepAct = new StepAct(fGeometry->detectorType);
-    SetUserAction(stepAct);
 }

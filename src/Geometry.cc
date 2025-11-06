@@ -15,11 +15,11 @@ Geometry::Geometry(const G4String &soilFile,
                                        vegetation(veg),
                                        detectorType(std::move(detType)) {
 
-    std::vector<G4String> detectorList = {"MilliNM", "NMFast", "NMEpithermal", "NMThermal"};
+    std::vector<G4String> detectorList = {"MilliNM", "NMFast", "NMEpithermal", "NMThermal", "Gamma"};
     if (std::find(detectorList.begin(), detectorList.end(), detectorType) == detectorList.end()) {
         G4Exception("Geometry::ConstructDetector", "DetectorType", FatalException,
                     ("Detector not found: " + detectorType +
-                     ".\nAvailable detectors: MilliNM, NMFast, NMEpithermal, NMThermal").c_str());
+                     ".\nAvailable detectors: MilliNM, NMFast, NMEpithermal, NMThermal, Gamma").c_str());
     }
 
     nist = G4NistManager::Instance();
@@ -106,6 +106,11 @@ void Geometry::DefineSoilMaterial() {
         soilMat->AddMaterial(water, soilMoisture / (1. + soilMoisture));
         soilMat->AddMaterial(drySoilMat, 1. / (1. + soilMoisture));
     }
+
+    std::ofstream debug("soil_debug.log");
+    debug << "Soil moisture: " << soilMoisture << std::endl;
+    debug << "Soil density: " << soilMat->GetDensity() / (g/cm3) << " g/cm3" << std::endl;
+    debug.close();
 }
 
 
@@ -305,11 +310,13 @@ void Geometry::ConstructDetector() {
         detector = new NMEpithermal(nist, worldMat, worldLV, soilPos.z(), soilDepth);
     } else if (detectorType == "NMThermal") {
         detector = new NMThermal(nist, worldMat, worldLV, soilPos.z(), soilDepth);
+    } else if (detectorType == "Gamma") {
+        detector = new Gamma(nist, worldMat, worldLV, soilPos.z(), soilDepth);
     }
     detector->Construct();
     detectorPos = detector->GetDetectorPos();
     detectorHalfSize = detector->GetDetectorHalfSize();
-    logicHelium = detector->GetSensitiveLV();
+    logicSD = detector->GetSensitiveLV();
 }
 
 
@@ -338,8 +345,8 @@ G4VPhysicalVolume *Geometry::Construct() {
 
 
 void Geometry::ConstructSDandField() {
-    SensitiveDetector *sensDet = new SensitiveDetector("SensitiveDetector");
-    logicHelium->SetSensitiveDetector(sensDet);
+    SensitiveDetector *sensDet = new SensitiveDetector("SensitiveDetector", detectorType);
+    logicSD->SetSensitiveDetector(sensDet);
     G4SDManager *sdManager = G4SDManager::GetSDMpointer();
     sdManager->AddNewDetector(sensDet);
 }

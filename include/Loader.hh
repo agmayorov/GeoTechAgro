@@ -11,7 +11,7 @@
 #include <G4PhysicsListHelper.hh>
 #include <G4ParticleTable.hh>
 #include <G4UImanager.hh>
-#include <QGSP_BIC_AllHP.hh>
+#include <QGSP_BERT_HP.hh>
 #include <G4StepLimiterPhysics.hh>
 
 #include <iostream>

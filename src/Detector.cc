@@ -25,7 +25,7 @@ void Detector::DefineMaterials() {
     elHe3 = new G4Element("Helium3", "He3", 1);
     elHe3->AddIsotope(He3, 1.0);
 
-    G4double pressureHe = 6.0 * atmosphere;
+    G4double pressureHe = 1.5 * atmosphere;
     G4double temperatureHe = 293.15 * kelvin;
     G4double densityHe = (pressureHe * molarHe) / (k_Boltzmann * Avogadro * temperatureHe);
     He3Mat = new G4Material("He3Mat", densityHe, 1, kStateGas, temperatureHe, pressureHe);
@@ -45,6 +45,9 @@ void Detector::DefineMaterials() {
     stainlessSteelMat->AddMaterial(Si, 0.02);
 
     polyMat = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+
+    //detMat = nist->FindOrBuildMaterial("G4_CESIUM_IODIDE");
+	detMat = CreateCsITl();
 }
 
 
@@ -63,7 +66,7 @@ G4String Detector::GetDetectorType() const {
 }
 
 G4LogicalVolume *Detector::GetSensitiveLV() const {
-    return logicHelium;
+    return logicSD;
 }
 
 void Detector::DefineVisual() {

@@ -1,11 +1,4 @@
 #include "PrimaryPartCRY.hh"
-#include "Geometry.hh"
-
-#include "G4ParticleGun.hh"
-#include "G4Neutron.hh"
-#include "G4SystemOfUnits.hh"
-#include "G4ThreeVector.hh"
-#include "Randomize.hh"
 
 static constexpr G4double CRY_E_TO_G4 = MeV;
 static constexpr G4double CRY_L_TO_G4 = m;
@@ -48,7 +41,12 @@ void PrimaryPartCRY::GeneratePrimaries(G4Event *event) {
             delete p;
             continue;
         }
-        if (p->PDGid() == 2112) {   // 2112 = neutron
+    if (p->PDGid() == 2112) {   // 2112 = neutron
+            analysisManager->FillNtupleDColumn(1, 0, p->ke());
+            analysisManager->AddNtupleRow(1);
+        }
+
+        if (p->PDGid() == 2212) {   // 2212 = proton
             analysisManager->FillNtupleDColumn(2, 0, p->ke());
             analysisManager->AddNtupleRow(2);
         }
@@ -66,13 +64,17 @@ void PrimaryPartCRY::GeneratePrimaries(G4Event *event) {
 
         G4ThreeVector worldPos(x * CRY_L_TO_G4, y * CRY_L_TO_G4, z * CRY_L_TO_G4);
 
-        worldPos.setZ((-fGeometry->atmosphereHeight + fGeometry->soilDepth + fGeometry->vegetation) / 2
-                      + 1 * m);
+        //worldPos.setZ((fGeometry->atmosphereHeight - fGeometry->soilDepth - fGeometry->vegetation) / 2
+                      //+ 1 * m);
+
+        worldPos.setZ(-48*m);
 
         G4ThreeVector dir(ux, uy, uz);
         if (dir.z() > 0.0) {
             dir = -dir;
         }
+
+        //G4ThreeVector dir(0, 0, -1);
 
         const G4double t0 = tt * CRY_T_TO_G4;
         const G4double Ekin = ke * CRY_E_TO_G4;

@@ -26,6 +26,7 @@
 #include "NMThermal.hh"
 #include "NMEpithermal.hh"
 #include "NMFast.hh"
+#include "Gamma.hh"
 
 #include "AtmosphereParametrization.hh"
 #include <utility>
@@ -95,7 +96,7 @@ private:
 
     G4Material *water;
 
-    G4LogicalVolume* logicHelium;
+    G4LogicalVolume* logicSD;
     Detector *detector;
     G4ThreeVector detectorPos;
     G4ThreeVector detectorHalfSize;

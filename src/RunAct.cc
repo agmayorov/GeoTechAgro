@@ -12,6 +12,8 @@ RunAct::~RunAct() {
 void RunAct::BeginOfRunAction(const G4Run *) {
     auto analysisManager = G4AnalysisManager::Instance();
     analysisManager->OpenFile(fileName);
+
+    //G4HadronicProcessStore::Instance()->Dump(1);
 }
 
 void RunAct::EndOfRunAction(const G4Run *) {

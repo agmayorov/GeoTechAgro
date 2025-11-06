@@ -1,6 +1,5 @@
 #include "Loader.hh"
 
-
 Loader::Loader(int argc, char **argv) {
     numThreads = G4Threading::G4GetNumberOfCores();
     soilFile = "../soil_example.in";
@@ -56,10 +55,11 @@ Loader::Loader(int argc, char **argv) {
 #else
     runManager = new G4RunManager;
 #endif
-    Geometry *realWorld = new Geometry(soilFile, numLayers, soilSize, airHumidity, soilMoisture, temperature,
+    
+    Geometry *realWorld = new Geometry(soilFile, numLayers, soilSize, soilMoisture, airHumidity, temperature,
                                        vegetation, detectorType);
     runManager->SetUserInitialization(realWorld);
-    G4VModularPhysicsList *physicsList = new QGSP_BIC_AllHP;
+    G4VModularPhysicsList *physicsList = new QGSP_BERT_HP;
     runManager->SetUserInitialization(physicsList);
     runManager->SetUserInitialization(new Action(realWorld, configCRY));
 
@@ -82,7 +82,6 @@ Loader::~Loader() {
     delete runManager;
     delete visManager;
 }
-
 
 G4String Loader::trim(const G4String &str) {
     size_t l = str.find_first_not_of(" \t\r\n");

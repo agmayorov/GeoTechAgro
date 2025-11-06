@@ -4,8 +4,6 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 
-#include "PrimaryPartCRY.hh"
-
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 #include "Randomize.hh"
@@ -13,6 +11,9 @@
 #include "G4AnalysisManager.hh"
 #include "AnalysisManager.hh"
 #include "G4Threading.hh"
+
+#include "G4HadronicProcessStore.hh"
+#include "G4Neutron.hh"
 
 #include <iomanip>
 

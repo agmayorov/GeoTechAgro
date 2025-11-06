@@ -17,16 +17,15 @@ void AnalysisManager::Book() {
 #ifdef G4MULTITHREADED
     analysisManager->SetNtupleMerging(true);
 #endif
-
     analysisManager->CreateNtuple("EnergyDeposit", "Total energy deposited");
     analysisManager->CreateNtupleDColumn("Edep");
     analysisManager->FinishNtuple();
 
-    analysisManager->CreateNtuple("NeutronCount", "Neutron events");
-    analysisManager->CreateNtupleIColumn("Neutron");
+    analysisManager->CreateNtuple("Initial", "Neutron initial energies");
+    analysisManager->CreateNtupleDColumn("Ekin");
     analysisManager->FinishNtuple();
 
-    analysisManager->CreateNtuple("InitialCRY", "CRY neutron initial energies");
-    analysisManager->CreateNtupleDColumn("Ekin");
+    analysisManager->CreateNtuple("Initial proton", "Proton initial energies");
+    analysisManager->CreateNtupleDColumn("EkinProt");
     analysisManager->FinishNtuple();
 }

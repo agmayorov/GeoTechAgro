@@ -6,7 +6,6 @@
 #include "EventAct.hh"
 #include "PrimaryPartCRY.hh"
 #include "RunAct.hh"
-#include "StepAct.hh"
 #include "Geometry.hh"
 
 class Action : public G4VUserActionInitialization {

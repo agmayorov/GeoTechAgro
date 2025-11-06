@@ -17,6 +17,13 @@
 #include <string>
 #include <unordered_map>
 
+#include "G4ParticleGun.hh"
+#include "G4Neutron.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4ThreeVector.hh"
+#include "Randomize.hh"
+
+#include "Geometry.hh"
 
 class PrimaryPartCRY : public G4VUserPrimaryGeneratorAction {
 public:

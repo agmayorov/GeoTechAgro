@@ -13,6 +13,9 @@
 #include <G4PVParameterised.hh>
 #include <G4Box.hh>
 #include <G4Tubs.hh>
+#include <G4MaterialPropertiesTable.hh>
+#include <G4Color.hh>
+#include <CsITl.hh>
 
 
 class Detector {
@@ -22,14 +25,14 @@ public:
     G4LogicalVolume *worldLV;
 
     G4String detectorType;
-    G4LogicalVolume* logicHelium;
+    G4LogicalVolume* logicSD;
 
     G4ThreeVector detContainerPos;
     G4ThreeVector detContainerHalfSize;
     G4Box *detContainer;
     G4LogicalVolume *detectorContainerLV;
 
-    G4double detectorPosZ = 2 * m;
+    G4double detectorPosZ = 0. * m;
 
     G4Material *stainlessSteelMat;
     G4Material *polyMat;
@@ -37,6 +40,7 @@ public:
     G4Isotope *He3;
     G4Element *elHe3;
     G4Material *leadMat;
+    G4Material *detMat;
 
     G4VisAttributes* visCyan;
     G4VisAttributes *visBlue;
